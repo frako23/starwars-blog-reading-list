@@ -1,26 +1,69 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
+import { CharacterCard } from "../component/characterCard";
+import { PlanetCard } from "../component/planetCard";
+import { VehicleCard } from "../component/vehicleCard";
 
 export const Home = () => {
+
 	const { store, actions } = useContext(Context);
 
+	useEffect(() => {
+		if (store.characters.length > 0) {
+			actions.getCharacteristics()
+		}
+	}, [store.characters])
+	useEffect(() => {
+		if (store.planetCharacters.length > 0) {
+			actions.getPlanetCharacteristics()
+		}
+	}, [store.planetCharacters])
+	useEffect(() => {
+		if (store.vehicleCharacters.length > 0) {
+			actions.getVehicleCharacteristics()
+		}
+	}, [store.vehicleCharacters])
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+		<div className="container" >
+			<h2 className="text-danger mt-5">Characters</h2>
+			<div className="carousel" >
+				<div className="characters">
+					{store.characteristics.map((character, index) => {
+						return (
+							<CharacterCard character={character} key={index} />
+						)
+					})}</div>
 			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
-					Read documentation
-				</a>
-			</p>
+
+
+			<h2 className="text-danger mt-5">Planets</h2>
+			<div className="carousel" >
+				<div className="characters">
+					{store.planetCharacteristics.map((planetCharacter, indexPlanet) => {
+						return (
+
+							<PlanetCard planetCharacter={planetCharacter} key={indexPlanet} />
+
+						)
+					})}</div>
+			</div>
+
+			<h2 className="text-danger mt-5">Vehicles</h2>
+			<div className="carousel" >
+				<div className="characters">
+					{store.vehicleCharacteristics.map((vehicleCharacter, indexVehicle) => {
+						return (
+
+							<VehicleCard vehicleCharacter={vehicleCharacter} key={indexVehicle} />
+
+						)
+					})}</div>
+			</div>
 		</div>
+
+
+
+
 	);
 };
